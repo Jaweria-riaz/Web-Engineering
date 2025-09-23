@@ -1,0 +1,28 @@
+h1{
+    color: white;
+    background-color: blueviolet; 
+}
+#color-one{
+    background-color: rgb(255, 0, 81);
+}
+#color-two{
+    background-color: rgb(110, 239, 110);
+    text-align: center;
+}
+#para1{
+    margin-top: 50px;
+        margin-bottom: 50px;
+}
+.center{
+text-align:center;
+background-color: violet;
+
+}
+p.center{
+    text-align: right;
+}
+
+h1,p{
+    background-color:green;
+    text-align:center;
+}

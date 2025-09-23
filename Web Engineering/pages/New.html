@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder - Prepare Your Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .section { transition: all 0.3s ease; }
+        .section:hover { transform: translateY(-5px); }
+        .preview {
+            background-color: #f9f9f9;
+            border-left: 4px solid #667eea;
+        }
+        .form-input {
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto p-6">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-2">CV Builder Tool</h1>
+            <p class="text-white text-lg">Create your professional resume in minutes</p>
+        </header>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Form Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Fill Your Details</h2>
+                <section class="section mb-8">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">Personal Information</h3>
+                    <input id="name" type="text" placeholder="Full Name" class="form-input w-full p-2 mb-2">
+                    <input id="email" type="email" placeholder="Email" class="form-input w-full p-2 mb-2">
+                    <input id="phone" type="text" placeholder="Phone Number" class="form-input w-full p-2 mb-2">
+                    <input id="location" type="text" placeholder="Location" class="form-input w-full p-2 mb-2">
+                </section>
+                <section class="section mb-8">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">Education</h3>
+                    <textarea id="education" placeholder="e.g., B.Sc. in Computer Science, University, 2020" class="form-input w-full p-4 h-32 resize-none"></textarea>
+                </section>
+                <section class="section mb-8">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">Work Experience</h3>
+                    <textarea id="experience" placeholder="e.g., Software Developer at XYZ, 2021-Present: Developed web apps" class="form-input w-full p-4 h-32 resize-none"></textarea>
+                </section>
+                <section class="section mb-8">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">Skills</h3>
+                    <input id="skills" type="text" placeholder="e.g., JavaScript, HTML, CSS, React" class="form-input w-full p-2">
+                </section>
+                <section class="section mb-8">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">Professional Summary</h3>
+                    <textarea id="summary" placeholder="A brief overview of your career goals" class="form-input w-full p-4 h-24 resize-none"></textarea>
+                </section>
+                <button id="generateCV" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition-colors">Generate Preview</button>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6 preview" id="cvPreview">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">CV Preview</h2>
+                <div class="border-b-2 border-gray-300 pb-4 mb-4">
+                    <h3 id="previewName" class="text-xl font-bold text-gray-800">Your Name</h3>
+                    <p id="previewContact" class="text-gray-600">email@example.com | 123-456-7890 | Location</p>
+                    <p id="previewSummary" class="text-gray-700 mt-2">Your summary here.</p>
+                </div>
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Education</h4>
+                    <p id="previewEducation" class="text-gray-700">Your education details.</p>
+                </div>
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Work Experience</h4>
+                    <p id="previewExperience" class="text-gray-700">Your experience details.</p>
+                </div>
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Skills</h4>
+                    <p id="previewSkills" class="text-gray-700">Your skills list.</p>
+                </div>
+                <button id="downloadCV" class="bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition-colors">Download as PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generateCV');
+        const downloadBtn = document.getElementById('downloadCV');
+
+        generateBtn.addEventListener('click', () => {
+            document.getElementById('previewName').textContent = document.getElementById('name').value || 'Your Name';
+            document.getElementById('previewContact').textContent = `${document.getElementById('email').value || 'email@example.com'} | ${document.getElementById('phone').value || '123-456-7890'} | ${document.getElementById('location').value || 'Location'}`;
+            document.getElementById('previewEducation').textContent = document.getElementById('education').value || 'Your education details.';
+            document.getElementById('previewExperience').textContent = document.getElementById('experience').value || 'Your experience details.';
+            document.getElementById('previewSkills').textContent = document.getElementById('skills').value || 'Your skills list.';
+            document.getElementById('previewSummary').textContent = document.getElementById('summary').value || 'Your summary here.';
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const name = document.getElementById('previewName').textContent;
+            const contact = document.getElementById('previewContact').textContent;
+            const summary = document.getElementById('previewSummary').textContent;
+            const education = document.getElementById('previewEducation').textContent;
+            const experience = document.getElementById('previewExperience').textContent;
+            const skills = document.getElementById('previewSkills').textContent;
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(18);
+            doc.text(name, 10, 20);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(12);
+            doc.text(contact, 10, 30);
+
+            doc.text('Summary:', 10, 45);
+            doc.text(summary, 10, 52);
+
+            doc.text('Education:', 10, 70);
+            doc.text(education, 10, 77);
+
+            doc.text('Experience:', 10, 95);
+            doc.text(experience, 10, 102);
+
+            doc.text('Skills:', 10, 120);
+            doc.text(skills, 10, 127);
+
+            doc.save('My_CV.pdf');
+        });
+    </script>
+</body>
+</html>
