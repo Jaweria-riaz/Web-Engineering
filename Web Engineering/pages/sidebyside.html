@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Side by Side Example</title>
+<style>
+.container {
+  display: flex; /* puts children side by side */
+  justify-content: space-between; /* space between boxes */
+  align-items: flex-start; /* align from top */
+  gap: 20px; /* space between boxes */
+  padding: 20px;
+}
+
+.box1, .box2 {
+  flex: 1; /* both take equal width */
+  padding: 20px;
+  background-color: lightblue;
+  border: 2px solid navy;
+  border-radius: 10px;
+}
+
+/* optional: make one smaller */
+.box2 {
+  flex: 0.8;
+  background-color: lightcoral;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="box1">
+    <h2>Box 1</h2>
+    <p>This is the first box (e.g., a form).</p>
+  </div>
+
+  <div class="box2">
+    <h2>Box 2</h2>
+    <p>This is the second box (e.g., a map).</p>
+  </div>
+</div>
+
+</body>
+</html>

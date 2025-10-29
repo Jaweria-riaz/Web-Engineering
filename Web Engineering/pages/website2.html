@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Background Image Example</title>
+<style>
+  /* Full page background image */
+  body {
+    margin: 0;
+    padding: 0;
+    background: url('cabin.jpeg') no-repeat center center fixed;
+    background-size: cover; /* fills full screen */
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+  }
+
+  h1 {
+    margin-top: 200px; /* moves text down a bit */
+  }
+
+  /* Optional: a div with different image just for test */
+  .my-div {
+    height: 100px;
+    width: 100%;
+    background: url('images.jfif') no-repeat center center;
+    background-size: cover;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+
+<body>
+  <h1>Welcome to my page!</h1>
+  <p>This is some content on the page.</p>
+
+  <div class="my-div">
+    <h2>This div has the same background image.</h2>
+  </div>
+</body>
+</html>
